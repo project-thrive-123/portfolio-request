@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Site Request</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Portfolio Site Request</h1>
+
+        <p class="note">
+            (Important Note: তোমার কাস্টম পোর্টফোলিও ওয়েবসাইট অর্ডার করতে নিচে আপনার তথ্য জমা দিন।
+            যারা ডেভেলপিং সময়ে কাস্টম পোর্টফোলিওর জন্য পেমেন্ট করে দিয়েছিলেন তাদের ইউনিভার্সাল আইডি
+            দেওয়ার প্রয়োজন নেই। যারা অনলাইনভাবে অনলাইনে পেমেন্ট করে এটিপিআইও সাইট এর জমা দিয়েছেন
+            করবেন, তাদের অবশ্যই ইউনিভার্সাল আইডি দিতে হবে, অন্যথায় অর্ডার কনফার্ম হবে না। অবশ্যই আপনার
+            ড্যাশিং ইনবক্স চেক করেন নাইলে সাইট URL পাবেন না। প্যাকেজটি ডেভেলপিং সময় যে অর্ডার ID দিয়ে দিন
+            অবশ্যই এই অর্ডার ID দিলেন নাইলে কনফার্ম হবে না। আমরা আপনার অনুরোধ পর্যালোচনা করে এবং শীঘ্রই
+            আপনাকে আপনার টেইলর সাইট ইনফরমেশন পাঠিয়ে দিব।)
+        </p>
+
+        <div class="form-container">
+            <form id="portfolioForm">
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" placeholder="Enter your name" autocomplete="name">
+                    <span class="error-message" id="fullNameError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="phoneNumber">Phone Number (11 digits)</label>
+                    <input type="tel" id="phoneNumber" placeholder="Enter 11 digit phone number" autocomplete="tel"
+                        maxlength="11" pattern="[0-9]{11}">
+                    <span class="error-message" id="phoneNumberError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="Enter your email" autocomplete="email">
+                    <span class="error-message" id="emailError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="orderId">Order ID</label>
+                    <input type="text" id="orderId" placeholder="Enter your order ID">
+                    <span class="error-message" id="orderIdError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="transactionId">Transaction ID (Optional)</label>
+                    <input type="text" id="transactionId" placeholder="Enter transaction ID if available">
+                    <span class="error-message" id="transactionIdError"></span>
+                </div>
+
+                <button type="submit" id="submitBtn">Submit Request</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
