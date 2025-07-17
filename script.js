@@ -194,17 +194,17 @@ document.addEventListener('DOMContentLoaded', function () {
         submitBtn.disabled = true;
         submitBtn.textContent = 'Submitting...';
 
-        // Prepare form data
+        // Prepare form data according to the API format
         const formData = {
-            fullName: fullName.value.trim(),
-            phoneNumber: phoneNumber.value.trim(),
+            name: fullName.value.trim(),
+            phone: phoneNumber.value.trim(),
             email: email.value.trim(),
-            orderId: orderId.value.trim(),
-            transactionId: transactionId.value.trim()
+            order_id: orderId.value.trim(),
+            transaction_id: transactionId.value.trim() || null // Send null if empty
         };
 
-        // Sample API endpoint (replace with actual endpoint later)
-        const apiUrl = 'https://jsonplaceholder.typicode.com/posts';
+        // API endpoint
+        const apiUrl = 'https://portforlio-backend-x7ck.onrender.com/api/requests';
 
         // Send the form data to the API
         fetch(apiUrl, {
@@ -214,31 +214,36 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             body: JSON.stringify(formData)
         })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(err => Promise.reject(err));
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
                 // Success handling
-                showSuccessMessage('Form submitted successfully! We will review your request and get back to you soon.');
+                showSuccessMessage(data.message || 'Form submitted successfully! We will review your request and get back to you soon.');
                 form.reset();
                 // Reset form submitted state
                 formSubmitted = false;
-            })
-            .catch(error => {
-                // Error handling
-                console.error('Error submitting form:', error);
-                alert('There was an error submitting your form. Please try again.');
-            })
-            .finally(() => {
-                // Re-enable the submit button
-                setTimeout(() => {
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = 'Submit Request';
-                }, 1000);
-            });
+            } else {
+                // If the API returns success: false
+                throw new Error(data.message || 'Failed to submit form');
+            }
+        })
+        .catch(error => {
+            // Error handling
+            console.error('Error submitting form:', error);
+            alert(error.message || 'There was an error submitting your form. Please try again.');
+        })
+        .finally(() => {
+            // Re-enable the submit button
+            setTimeout(() => {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit Request';
+            }, 1000);
+        });
     }
 
     // Success message function
