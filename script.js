@@ -6,14 +6,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const fullName = document.getElementById('fullName');
     const phoneNumber = document.getElementById('phoneNumber');
     const email = document.getElementById('email');
-    const orderId = document.getElementById('orderId');
     const transactionId = document.getElementById('transactionId');
 
     // Error elements
     const fullNameError = document.getElementById('fullNameError');
     const phoneNumberError = document.getElementById('phoneNumberError');
     const emailError = document.getElementById('emailError');
-    const orderIdError = document.getElementById('orderIdError');
     const transactionIdError = document.getElementById('transactionIdError');
 
     // Track if form has been submitted
@@ -58,12 +56,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    orderId.addEventListener('input', function () {
-        if (formSubmitted) {
-            validateOrderId();
-        }
-    });
-
     // Add keypress event to submit form on Enter key
     document.addEventListener('keypress', function (e) {
         if (e.key === 'Enter' && document.activeElement.tagName !== 'TEXTAREA') {
@@ -92,16 +84,14 @@ document.addEventListener('DOMContentLoaded', function () {
         const isFullNameValid = validateFullName();
         const isPhoneNumberValid = validatePhoneNumber();
         const isEmailValid = validateEmail();
-        const isOrderIdValid = validateOrderId();
 
-        if (isFullNameValid && isPhoneNumberValid && isEmailValid && isOrderIdValid) {
+        if (isFullNameValid && isPhoneNumberValid && isEmailValid) {
             submitForm();
         } else {
             // Focus the first invalid field
             if (!isFullNameValid) fullName.focus();
             else if (!isPhoneNumberValid) phoneNumber.focus();
             else if (!isEmailValid) email.focus();
-            else if (!isOrderIdValid) orderId.focus();
         }
     });
 
@@ -165,18 +155,6 @@ document.addEventListener('DOMContentLoaded', function () {
         return true;
     }
 
-    function validateOrderId() {
-        const value = orderId.value.trim();
-
-        if (value === '') {
-            showError(orderId, orderIdError, 'Order ID is required');
-            return false;
-        }
-
-        hideError(orderId, orderIdError);
-        return true;
-    }
-
     // Helper functions
     function showError(inputElement, errorElement, message) {
         inputElement.classList.add('error');
@@ -199,7 +177,7 @@ document.addEventListener('DOMContentLoaded', function () {
             name: fullName.value.trim(),
             phone: phoneNumber.value.trim(),
             email: email.value.trim(),
-            order_id: orderId.value.trim(),
+            order_id: "", // Set order_id to empty string by default
             transaction_id: transactionId.value.trim() || null // Send null if empty
         };
 
@@ -214,36 +192,36 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             body: JSON.stringify(formData)
         })
-        .then(response => {
-            if (!response.ok) {
-                return response.json().then(err => Promise.reject(err));
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.success) {
-                // Success handling
-                showSuccessMessage(data.message || 'Form submitted successfully! We will review your request and get back to you soon.');
-                form.reset();
-                // Reset form submitted state
-                formSubmitted = false;
-            } else {
-                // If the API returns success: false
-                throw new Error(data.message || 'Failed to submit form');
-            }
-        })
-        .catch(error => {
-            // Error handling
-            console.error('Error submitting form:', error);
-            alert(error.message || 'There was an error submitting your form. Please try again.');
-        })
-        .finally(() => {
-            // Re-enable the submit button
-            setTimeout(() => {
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Submit Request';
-            }, 1000);
-        });
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(err => Promise.reject(err));
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    // Success handling
+                    showSuccessMessage(data.message || 'Form submitted successfully! We will review your request and get back to you soon.');
+                    form.reset();
+                    // Reset form submitted state
+                    formSubmitted = false;
+                } else {
+                    // If the API returns success: false
+                    throw new Error(data.message || 'Failed to submit form');
+                }
+            })
+            .catch(error => {
+                // Error handling
+                console.error('Error submitting form:', error);
+                alert(error.message || 'There was an error submitting your form. Please try again.');
+            })
+            .finally(() => {
+                // Re-enable the submit button
+                setTimeout(() => {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Submit Request';
+                }, 1000);
+            });
     }
 
     // Success message function
@@ -278,7 +256,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Clear all error messages initially
-    [fullNameError, phoneNumberError, emailError, orderIdError, transactionIdError].forEach(error => {
+    [fullNameError, phoneNumberError, emailError, transactionIdError].forEach(error => {
         error.textContent = '';
     });
 }); 
