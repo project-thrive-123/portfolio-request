@@ -200,8 +200,8 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             .then(data => {
                 if (data.success) {
-                    // Success handling
-                    showSuccessMessage(data.message || 'Form submitted successfully! We will review your request and get back to you soon.');
+                    // Success handling with Bangla message
+                    showSuccessMessage('আপনার অনুরোধ সফলভাবে জমা হয়েছে! আমরা শীঘ্রই আপনার ইমেইলে পোর্টফোলিও ওয়েবসাইটের সমস্ত তথ্য পাঠিয়ে দেব। ধন্যবাদ!');
                     form.reset();
                     // Reset form submitted state
                     formSubmitted = false;
@@ -250,6 +250,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 font-weight: 500;
                 animation: fadeIn 0.5s ease-in-out;
                 border-left: 4px solid #00a67d;
+                font-size: 18px;
+                line-height: 1.6;
             }
         `;
         document.head.appendChild(style);
